@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1E3A5F"/>
+  <!-- vapor que es gráfica: la línea dorada sube desde la olla -->
+  <polyline points="20,26 27,19 33,23 42,12" fill="none" stroke="#FBBF24" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="42" cy="12" r="3.4" fill="#FBBF24"/>
+  <!-- la olla -->
+  <path d="M17 34 h30 v10 a8 8 0 0 1 -8 8 h-14 a8 8 0 0 1 -8 -8 z" fill="#FFFFFF"/>
+  <rect x="11" y="33" width="8" height="3.6" rx="1.8" fill="#FFFFFF"/>
+  <rect x="45" y="33" width="8" height="3.6" rx="1.8" fill="#FFFFFF"/>
+  <!-- sonrisa de la olla: la base curva en azul suave -->
+  <path d="M24 44 q8 5 16 0" fill="none" stroke="#93C5FD" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

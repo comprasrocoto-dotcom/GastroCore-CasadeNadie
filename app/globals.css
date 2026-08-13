@@ -1,0 +1,256 @@
+/* v10.14.1: fuentes cargadas por <link> en layout.tsx (ya no via next/font).
+   Estas variables hacen que los var(--font-*) de tailwind.config resuelvan a
+   las familias reales, dejando el diseno EXACTAMENTE igual que antes. */
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-jetbrains: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #1E3A5F;
+  --brand-hover: #16324D;
+  --accent: #2563EB;
+  --success: #16A34A;
+  --warning: #F59E0B;
+  --danger: #DC2626;
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --line: #E2E8F0;
+  --ink: #0F172A;
+  --muted: #64748B;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--ink);
+  }
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  ::selection { background: #DBEAFE; }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-xl border;
+    border-color: var(--line);
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
+  }
+  .card-hover { transition: box-shadow .15s ease, transform .15s ease; }
+  .card-hover:hover {
+    box-shadow: 0 6px 20px rgba(15,23,42,.08);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors;
+    background-color: var(--brand);
+  }
+  .btn-primary:hover { background-color: var(--brand-hover); }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold bg-white transition-colors;
+    color: var(--accent);
+    border: 1px solid #BFDBFE;
+  }
+  .btn-secondary:hover { background-color: #EFF6FF; }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors;
+    color: var(--danger);
+    background-color: #FEF2F2;
+  }
+  .btn-danger:hover { background-color: #FEE2E2; }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-wider;
+    color: var(--muted);
+  }
+
+  .fin-value {
+    @apply font-semibold tabular-nums;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .erp-table { @apply w-full text-[15px]; border-collapse: separate; border-spacing: 0; }
+  .erp-table thead th {
+    @apply text-left text-[12px] font-semibold uppercase tracking-wider px-4 py-3;
+    color: var(--muted);
+    background-color: #F1F5F9;
+    border-bottom: 1px solid var(--line);
+  }
+  .erp-table tbody td {
+    @apply px-4 py-3;
+    border-bottom: 1px solid #F1F5F9;
+    color: var(--ink);
+  }
+  .erp-table tbody tr:hover { background-color: #F8FAFC; }
+  .erp-table tbody tr.is-selected { background-color: #DBEAFE; }
+
+  .progress-track {
+    @apply w-full rounded-full overflow-hidden;
+    height: 8px;
+    background-color: #E2E8F0;
+  }
+  .progress-fill { @apply h-full rounded-full; transition: width .4s ease; }
+
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold; }
+  .chip-success { color: #16A34A; background-color: #DCFCE7; }
+  .chip-warning { color: #B45309; background-color: #FEF3C7; }
+  .chip-danger { color: #DC2626; background-color: #FEE2E2; }
+
+  .ticket-panel {
+    @apply bg-white rounded-xl border p-5 text-sm;
+    border-color: var(--line);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
+  }
+  .ticket-panel::before, .ticket-panel::after { display: none !important; content: none !important; }
+
+  .ticket-row {
+    @apply flex items-center justify-between py-1 text-sm;
+    color: var(--ink);
+  }
+  .ticket-row span:first-child { color: var(--muted); }
+  .ticket-row span:last-child { @apply font-semibold tabular-nums; }
+
+  .ticket-total {
+    @apply mt-2 flex items-center justify-between rounded-lg px-3 py-2 text-base font-bold tabular-nums;
+    background-color: #F1F5F9;
+  }
+
+  /* ---- Contenedor responsive tipo ERP (SAP Fiori / NetSuite / Odoo) ---- */
+  /* Usa ~92-95% del ancho disponible, sin anchos fijos en px. */
+  .app-shell {
+    width: 100%;
+    max-width: 1800px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 2vw, 1.5rem);
+  }
+  /* Tope suave solo en monitores ultra-anchos (>= ~2560px) para legibilidad. */
+  @media (min-width: 2560px) {
+    .app-shell { max-width: 2000px; }
+  }
+  @media (max-width: 640px) {
+    .app-shell { max-width: 100%; padding-inline: 0.75rem; }
+  }
+
+  /* Scroll horizontal en tablas solo cuando es estrictamente necesario. */
+  .erp-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Tabla de recetas: la columna Receta ocupa mas ancho y no se parte. */
+  .erp-table.recetas-table { table-layout: auto; }
+  .erp-table.recetas-table th:first-child,
+  .erp-table.recetas-table td:first-child { min-width: 220px; width: 34%; white-space: normal; }
+  .erp-table.recetas-table tbody tr { cursor: pointer; }
+  .erp-table.recetas-table tbody tr:hover { background-color: #EFF6FF; }
+
+}
+
+/* ═══ v11.7: MODO OSCURO DEFINITIVO — auditoría de paleta completa.
+   El claro queda intacto; TODO esto vive bajo .dark. Tokens: fondo #0F172A,
+   superficie #1E293B, sutil #16213A, borde #334155, texto #E2E8F0. ═══ */
+.dark { color-scheme: dark; }
+.dark body { background: #0F172A; color: #E2E8F0; }
+.dark header { background: rgba(15, 23, 42, 0.92) !important; border-color: #334155 !important; }
+
+/* superficies */
+.dark .card, .dark section.card { background: #1E293B; border-color: #334155; }
+.dark .bg-white { background-color: #1E293B !important; }
+.dark .bg-slate-50, .dark .bg-\[\#F8FAFC\], .dark .bg-slate-100, .dark .bg-salvia-50 { background-color: #16213A !important; }
+.dark .bg-gray-50, .dark .bg-gray-100 { background-color: #16213A !important; }
+
+/* pasteles de estado → tintes translúcidos que conservan el matiz */
+.dark .bg-red-50 { background-color: rgba(239, 68, 68, 0.13) !important; }
+.dark .bg-emerald-50, .dark .bg-green-50 { background-color: rgba(16, 185, 129, 0.13) !important; }
+.dark .bg-ambar-50, .dark .bg-amber-50, .dark .bg-yellow-50 { background-color: rgba(245, 158, 11, 0.14) !important; }
+.dark .bg-blue-50, .dark .bg-indigo-50, .dark .bg-sky-50, .dark .bg-azul-50 { background-color: rgba(59, 130, 246, 0.13) !important; }
+
+/* tinta y jerarquía de texto */
+.dark .text-ink, .dark .text-slate-800, .dark .text-slate-900, .dark .text-slate-700 { color: #E2E8F0 !important; }
+.dark .text-salvia-600, .dark .text-salvia-700, .dark .text-salvia-800, .dark .text-slate-500, .dark .text-slate-600 { color: #94A3B8 !important; }
+.dark .text-salvia-400, .dark .text-salvia-500, .dark .text-slate-400 { color: #7C8DA6 !important; }
+
+/* los colores de marca y estado, en su versión luminosa */
+.dark .text-\[\#1E3A5F\], .dark .text-azul-700, .dark .text-blue-700, .dark .text-blue-600, .dark .text-indigo-700 { color: #93C5FD !important; }
+.dark .text-red-700, .dark .text-red-600 { color: #FCA5A5 !important; }
+.dark .text-emerald-700, .dark .text-emerald-600, .dark .text-green-700 { color: #6EE7B7 !important; }
+.dark .text-ambar-700, .dark .text-ambar-600, .dark .text-amber-700, .dark .text-amber-600 { color: #FCD34D !important; }
+
+/* bordes: la regla que faltaba 89 veces */
+.dark .border-line, .dark .border-slate-200, .dark .border-slate-300, .dark .border-gray-200 { border-color: #334155 !important; }
+.dark .divide-slate-100 > *, .dark .divide-slate-200 > * { border-color: #2B3A55 !important; }
+
+/* formularios */
+.dark input, .dark select, .dark textarea { background-color: #0F1A2E; color: #E2E8F0; border-color: #334155; }
+.dark input::placeholder, .dark textarea::placeholder { color: #64748B; }
+.dark input:disabled, .dark select:disabled { background-color: #111C31; color: #7C8DA6; }
+.dark input[type='checkbox'] { accent-color: #60A5FA; }
+
+/* interacción */
+.dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-100:hover, .dark .hover\:bg-salvia-50:hover { background-color: #1C2A44 !important; }
+.dark .hover\:bg-ambar-50:hover { background-color: rgba(245, 158, 11, 0.16) !important; }
+.dark .hover\:bg-red-50:hover { background-color: rgba(239, 68, 68, 0.16) !important; }
+.dark .hover\:bg-emerald-50:hover { background-color: rgba(16, 185, 129, 0.16) !important; }
+
+/* botones secundarios y sombras */
+.dark .btn-secondary { background-color: #1E293B !important; color: #E2E8F0 !important; border-color: #334155 !important; }
+.dark .btn-secondary:hover { background-color: #24334D !important; }
+.dark .shadow-sm, .dark .shadow, .dark .shadow-md, .dark .shadow-xl { --tw-shadow-color: rgba(0, 0, 0, 0.45); }
+
+/* tablas */
+.dark thead, .dark thead tr, .dark th { background-color: #16213A !important; color: #94A3B8 !important; }
+.dark tbody tr { border-color: #2B3A55 !important; }
+
+/* ═══ v11.0: MODO IMPRESIÓN — el PDF nace limpio ═══ */
+@media print {
+  header, nav, .no-imprimir, button, a.btn-secondary, a.btn-primary { display: none !important; }
+  body { background: white !important; color: #111 !important; }
+  .card, section.card { border: none !important; box-shadow: none !important; break-inside: avoid; }
+  main { max-width: 100% !important; padding: 0 !important; }
+}
+
+/* ═══ v11.8: MODO OSCURO — los fugitivos del censo (hexes arbitrarios).
+   Cada color hallado en el código, mapeado por matiz a su versión nocturna. ═══ */
+/* fondos pastel en hex → tintes translúcidos del mismo matiz */
+.dark .bg-\[\#DCFCE7\], .dark .bg-\[\#ECFDF5\] { background-color: rgba(16, 185, 129, 0.13) !important; }
+.dark .bg-\[\#FEE2E2\], .dark .bg-\[\#FEF2F2\] { background-color: rgba(239, 68, 68, 0.13) !important; }
+.dark .bg-\[\#EFF6FF\], .dark .bg-\[\#DBEAFE\] { background-color: rgba(59, 130, 246, 0.13) !important; }
+.dark .bg-\[\#FEF3C7\], .dark .bg-\[\#FFFBEB\] { background-color: rgba(245, 158, 11, 0.14) !important; }
+.dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F0FDF4\] { background-color: #16213A !important; }
+/* textos de estado en hex → su versión luminosa */
+.dark .text-\[\#16A34A\], .dark .text-\[\#15803D\] { color: #4ADE80 !important; }
+.dark .text-\[\#DC2626\], .dark .text-\[\#B91C1C\] { color: #F87171 !important; }
+.dark .text-\[\#B45309\], .dark .text-\[\#92400E\] { color: #FCD34D !important; }
+.dark .text-\[\#2563EB\], .dark .text-\[\#1D4ED8\] { color: #60A5FA !important; }
+.dark .text-\[\#0F172A\], .dark .text-\[\#111827\], .dark .text-\[\#334155\] { color: #E2E8F0 !important; }
+/* familias con nombre que faltaban */
+.dark .bg-salvia-100, .dark .bg-neutral-50, .dark .bg-neutral-100, .dark .bg-slate-200 { background-color: #16213A !important; }
+.dark .bg-ambar-100, .dark .bg-amber-100, .dark .bg-yellow-100 { background-color: rgba(245, 158, 11, 0.16) !important; }
+.dark .bg-red-100 { background-color: rgba(239, 68, 68, 0.16) !important; }
+.dark .bg-emerald-100, .dark .bg-green-100 { background-color: rgba(16, 185, 129, 0.16) !important; }
+.dark .bg-blue-100, .dark .bg-indigo-100 { background-color: rgba(59, 130, 246, 0.16) !important; }
+.dark .text-ambar-800, .dark .text-amber-800, .dark .text-yellow-800 { color: #FCD34D !important; }
+.dark .text-red-800, .dark .text-rose-800 { color: #FCA5A5 !important; }
+.dark .text-emerald-800, .dark .text-green-800 { color: #6EE7B7 !important; }
+.dark .text-blue-800, .dark .text-indigo-800, .dark .text-azul-800 { color: #93C5FD !important; }
+.dark .text-neutral-500, .dark .text-neutral-600, .dark .text-gray-500, .dark .text-gray-600 { color: #94A3B8 !important; }
+/* superficies blancas con opacidad */
+.dark .bg-white\/95, .dark .bg-white\/90, .dark .bg-white\/80 { background-color: rgba(30, 41, 59, 0.92) !important; }
+/* insignias y chips que quedaban claros */
+.dark .ring-slate-200, .dark .ring-slate-300 { --tw-ring-color: #334155 !important; }
